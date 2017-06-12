@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:gravity="bottom" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="5.0dip">
+        <TextView android:textAppearance="?android:textAppearanceMedium" android:textSize="22.0sp" android:layout_gravity="bottom" android:id="@id/screenTitle" android:padding="5.0dip" android:layout_width="0.0dip" android:layout_height="wrap_content" android:text="@string/screen_title" android:drawableLeft="@drawable/icon_screen" android:drawablePadding="4.0dip" android:layout_weight="0.75" />
+        <ImageButton android:layout_gravity="center" android:id="@id/Button_Op" android:background="@drawable/settings_sel" android:layout_width="50.0dip" android:layout_height="wrap_content" android:layout_marginRight="20.0dip" android:src="@drawable/option_icon" android:contentDescription="@null" />
+        <TextView android:textSize="12.0sp" android:gravity="center" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="5.0dip" android:text="@string/large" />
+    </LinearLayout>
+    <LinearLayout android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent">
+        <LinearLayout android:orientation="vertical" android:id="@id/LinearLayout24" android:layout_width="fill_parent" android:layout_height="wrap_content">
+            <LinearLayout android:orientation="vertical" android:id="@id/LinearLayout09" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                <LinearLayout android:gravity="center_horizontal" android:orientation="horizontal" android:id="@id/LinearLayout29" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                    <Button android:textSize="15.0sp" android:textColor="#ffffffff" android:id="@id/Buttonload" android:background="@drawable/buttonshape" android:layout_width="100.0dip" android:layout_height="45.0dip" android:layout_marginLeft="10.0dip" android:layout_marginBottom="2.0dip" android:text="@string/load" />
+                    <Button android:textSize="28.0sp" android:textColor="#ffff0000" android:id="@id/Buttonreset" android:background="@drawable/roundbutton" android:layout_width="80.0dip" android:layout_height="80.0dip" android:layout_marginLeft="40.0dip" android:layout_marginBottom="2.0dip" android:text="@string/reset" />
+                    <Button android:textSize="15.0sp" android:textColor="#ffffffff" android:id="@id/buttonstart" android:background="@drawable/buttonshape" android:layout_width="100.0dip" android:layout_height="45.0dip" android:layout_marginLeft="40.0dip" android:layout_marginRight="10.0dip" android:layout_marginBottom="1.0dip" android:text="@string/start" />
+                </LinearLayout>
+                <TextView android:textSize="10.0sp" android:gravity="center" android:id="@id/text_Data3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="135.0dip" android:layout_marginTop="2.0dip" android:layout_marginBottom="5.0dip" android:text="@string/text_Data_text3" android:singleLine="true" />
+            </LinearLayout>
+            <LinearLayout android:gravity="center|left" android:orientation="vertical" android:id="@id/LinearLayoutCmd" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginTop="15.0dip" android:layout_marginBottom="6.0dip">
+                <LinearLayout android:gravity="center_horizontal" android:orientation="horizontal" android:id="@id/Layout_BAC" android:layout_width="fill_parent" android:layout_height="wrap_content">
+                    <Button android:textSize="14.0sp" android:textColor="#ffffff00" android:layout_gravity="center_vertical" android:id="@id/buttonCmdA" android:background="@drawable/buttonshape" android:layout_width="85.0dip" android:layout_height="35.0dip" android:text="@string/btnA_text" android:singleLine="false" />
+                    <Button android:textSize="14.0sp" android:textColor="#ffffff00" android:layout_gravity="center_vertical" android:id="@id/buttonCmdB" android:background="@drawable/buttonshape" android:layout_width="85.0dip" android:layout_height="35.0dip" android:layout_marginLeft="40.0dip" android:text="@string/btnB_text" android:singleLine="false" />
+                    <Button android:textSize="14.0sp" android:textColor="#ffffff00" android:layout_gravity="center_vertical" android:id="@id/buttonCmdC" android:background="@drawable/buttonshape" android:layout_width="85.0dip" android:layout_height="35.0dip" android:layout_marginLeft="35.0dip" android:text="@string/btnC_text" android:singleLine="false" />
+                </LinearLayout>
+                <LinearLayout android:gravity="center_horizontal" android:orientation="horizontal" android:id="@id/Layout_B14" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="20.0dip">
+                    <Button android:textSize="12.0sp" android:textColor="#ffffffff" android:layout_gravity="center_vertical" android:id="@id/buttonCmd1" android:background="@drawable/buttonshape" android:layout_width="60.0dip" android:layout_height="35.0dip" android:text="@string/btn1_text" android:singleLine="false" />
+                    <Button android:textSize="12.0sp" android:textColor="#ffffffff" android:layout_gravity="center_vertical" android:id="@id/buttonCmd2" android:background="@drawable/buttonshape" android:layout_width="60.0dip" android:layout_height="35.0dip" android:layout_marginLeft="30.0dip" android:text="@string/btn2_text" android:singleLine="false" />
+                    <Button android:textSize="12.0sp" android:textColor="#ffffffff" android:layout_gravity="center_vertical" android:id="@id/buttonCmd3" android:background="@drawable/buttonshape" android:layout_width="60.0dip" android:layout_height="35.0dip" android:layout_marginLeft="30.0dip" android:text="@string/btn3_text" android:singleLine="false" />
+                    <Button android:textSize="12.0sp" android:textColor="#ffffffff" android:layout_gravity="center_vertical" android:id="@id/buttonCmd4" android:background="@drawable/buttonshape" android:layout_width="60.0dip" android:layout_height="35.0dip" android:layout_marginLeft="30.0dip" android:text="@string/btn4_text" android:singleLine="false" />
+                </LinearLayout>
+                <LinearLayout android:gravity="center_horizontal" android:orientation="horizontal" android:id="@id/Layout_B58" android:visibility="visible" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="20.0dip">
+                    <Button android:textSize="12.0sp" android:textColor="#ffffffff" android:layout_gravity="center_vertical" android:id="@id/buttonCmd5" android:background="@drawable/buttonshape" android:layout_width="60.0dip" android:layout_height="35.0dip" android:text="@string/btn5_text" android:singleLine="false" />
+                    <Button android:textSize="12.0sp" android:textColor="#ffffffff" android:layout_gravity="center_vertical" android:id="@id/buttonCmd6" android:background="@drawable/buttonshape" android:layout_width="60.0dip" android:layout_height="35.0dip" android:layout_marginLeft="30.0dip" android:text="@string/btn6_text" android:singleLine="false" />
+                    <Button android:textSize="12.0sp" android:textColor="#ffffffff" android:layout_gravity="center_vertical" android:id="@id/buttonCmd7" android:background="@drawable/buttonshape" android:layout_width="60.0dip" android:layout_height="35.0dip" android:layout_marginLeft="30.0dip" android:text="@string/btn7_text" android:singleLine="false" />
+                    <Button android:textSize="12.0sp" android:textColor="#ffffffff" android:layout_gravity="center_vertical" android:id="@id/buttonCmd8" android:background="@drawable/buttonshape" android:layout_width="60.0dip" android:layout_height="35.0dip" android:layout_marginLeft="30.0dip" android:text="@string/btn8_text" android:singleLine="false" />
+                </LinearLayout>
+                <LinearLayout android:gravity="center_horizontal" android:orientation="horizontal" android:id="@id/Layout_B912" android:visibility="visible" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginTop="20.0dip">
+                    <Button android:textSize="12.0sp" android:textColor="#ffffffff" android:layout_gravity="center_vertical" android:id="@id/buttonCmd9" android:background="@drawable/buttonshape" android:layout_width="60.0dip" android:layout_height="35.0dip" android:text="@string/btn9_text" android:singleLine="false" />
+                    <Button android:textSize="12.0sp" android:textColor="#ffffffff" android:layout_gravity="center_vertical" android:id="@id/buttonCmd10" android:background="@drawable/buttonshape" android:layout_width="60.0dip" android:layout_height="35.0dip" android:layout_marginLeft="30.0dip" android:text="@string/btn10_text" android:singleLine="false" />
+                    <Button android:textSize="12.0sp" android:textColor="#ffffffff" android:layout_gravity="center_vertical" android:id="@id/buttonCmd11" android:background="@drawable/buttonshape" android:layout_width="60.0dip" android:layout_height="35.0dip" android:layout_marginLeft="30.0dip" android:text="@string/btn11_text" android:singleLine="false" />
+                    <Button android:textSize="12.0sp" android:textColor="#ffffffff" android:layout_gravity="center_vertical" android:id="@id/buttonCmd12" android:background="@drawable/buttonshape" android:layout_width="60.0dip" android:layout_height="35.0dip" android:layout_marginLeft="30.0dip" android:text="@string/btn12_text" android:singleLine="false" />
+                </LinearLayout>
+                <LinearLayout android:gravity="center_horizontal" android:orientation="horizontal" android:id="@id/Layout_CmdLine" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="5.0dip" android:layout_marginTop="20.0dip">
+                    <EditText android:textSize="14.0sp" android:textStyle="bold" android:id="@id/editSend" android:background="@drawable/edittextshape" android:clickable="false" android:layout_width="240.0dip" android:layout_height="25.0dip" android:layout_marginLeft="5.0dip" android:layout_marginTop="1.0dip" android:hint="@string/entercommand" />
+                    <Button android:textSize="12.0sp" android:textColor="#ffffffff" android:id="@id/ButtonSend" android:background="@drawable/buttonshape" android:layout_width="60.0dip" android:layout_height="25.0dip" android:layout_marginLeft="30.0dip" android:layout_marginRight="10.0dip" android:text="@string/send" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout android:gravity="center|left" android:orientation="horizontal" android:id="@id/layoutdro" android:background="@drawable/buttonshape" android:layout_width="fill_parent" android:layout_height="28.0dip" android:layout_marginLeft="25.0dip" android:layout_marginTop="6.0dip" android:layout_marginRight="25.0dip" android:layout_marginBottom="8.0dip">
+            <TextView android:textColor="#ff00ffff" android:id="@id/textstatus" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip" android:text="****" />
+            <LinearLayout android:gravity="center|left" android:orientation="horizontal" android:layout_width="210.0dip" android:layout_height="28.0dip">
+                <TextView android:textColor="#ff00ffff" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="45.0dip" android:text="@string/state_x" />
+                <TextView android:textColor="#ff00ffff" android:id="@id/textviewX" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/text_Data_text3" />
+                <TextView android:textSize="10.0sp" android:textColor="#ff00ddaa" android:id="@id/textviewXm" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="5.0dip" />
+            </LinearLayout>
+            <LinearLayout android:gravity="center|left" android:orientation="horizontal" android:layout_width="170.0dip" android:layout_height="28.0dip">
+                <TextView android:textColor="#ff00ffff" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/state_y" />
+                <TextView android:textColor="#ff00ffff" android:id="@id/textviewY" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/text_Data_text3" />
+                <TextView android:textSize="10.0sp" android:textColor="#ff00eeaa" android:id="@id/textviewYm" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="5.0dip" />
+            </LinearLayout>
+            <LinearLayout android:gravity="center|left" android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="28.0dip">
+                <TextView android:textColor="#ff00ffff" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/state_z" />
+                <TextView android:textColor="#ff00ffff" android:id="@id/textviewZ" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="X.XXX" />
+                <TextView android:textSize="10.0sp" android:textColor="#ff00ccaa" android:id="@id/textviewZm" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginLeft="5.0dip" />
+            </LinearLayout>
+        </LinearLayout>
+        <FrameLayout android:id="@id/FrameLayout1" android:layout_width="fill_parent" android:layout_height="445.0dip" android:layout_marginTop="5.0dip" android:layout_marginBottom="5.0dip" android:layout_weight="4.22">
+            <LinearLayout android:orientation="horizontal" android:id="@id/Layout_GRBL" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="5.0dip">
+                <TextView android:textSize="12.0sp" android:gravity="bottom" android:id="@id/text_feedBack" android:scrollbars="vertical" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="40.0dip" android:layout_marginRight="10.0dip" />
+            </LinearLayout>
+            <ListView android:id="@id/filelist1" android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_marginLeft="60.0dip" />
+        </FrameLayout>
+    </LinearLayout>
+    <LinearLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_marginLeft="10.0dip">
+        <TextView android:textColor="#ffff0000" android:id="@id/txt_status" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="@string/status_text" />
+    </LinearLayout>
+</LinearLayout>

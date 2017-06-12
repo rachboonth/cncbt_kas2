@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="-2"
+    android:layout_width="wrap_content">
+
+    <ListPreference
+        android:defaultValue="4"
+        android:dialogTitle="Select button feedback"
+        android:entries="@array/Buttonfeedback"
+        android:entryValues="@array/ButtonFeedbackValues"
+        android:key="button_feedback"
+        android:layout_height="-2"
+        android:layout_width="-2"
+        android:summary="   bip or haptic"
+        android:title="@string/feedback_of_Buttons" />
+
+    <ListPreference
+        android:defaultValue="2"
+        android:dialogTitle="Items to display"
+        android:entries="@array/feedBack"
+        android:entryValues="@array/feedBackValues"
+        android:key="grbl_feedback"
+        android:layout_height="-2"
+        android:layout_width="-2"
+        android:summary="   Select GRBL feedback display"
+        android:title="@string/feed_back" />
+
+    <ListPreference
+        android:defaultValue="3"
+        android:dialogTitle="Choose display type"
+        android:entries="@array/droDisplay"
+        android:entryValues="@array/droDisplayValues"
+        android:key="dro_display"
+        android:layout_height="-2"
+        android:layout_width="-2"
+        android:summary="   Display Work and Machine coordinates"
+        android:title="@string/drodisplay" />
+
+    <PreferenceScreen
+        android:key="Adv_option"
+        android:layout_height="-2"
+        android:layout_width="-2"
+        android:title="@string/Advanced_Options">
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="Auto_Connect"
+            android:layout_height="-2"
+            android:layout_width="-2"
+            android:summary="   connect to last connected device"
+            android:title="@string/t_Auto_connect" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="smart_streaming"
+            android:layout_height="-2"
+            android:layout_width="-2"
+            android:summary="   smart streaming protocol"
+            android:title="@string/smartstreaming" />
+
+        <ListPreference
+            android:defaultValue="60"
+            android:dialogTitle="Select communication timeout"
+            android:entries="@array/timeOut"
+            android:entryValues="@array/timeOutValues"
+            android:key="timeout"
+            android:layout_height="-2"
+            android:layout_width="-2"
+            android:summary="   select communication timeout"
+            android:title="@string/time_out" />
+
+        <ListPreference
+            android:defaultValue="500"
+            android:dialogTitle="Adjust refresh time"
+            android:entries="@array/drorefresh"
+            android:entryValues="@array/drorefreshValues"
+            android:key="dro_refresh"
+            android:layout_height="-2"
+            android:layout_width="-2"
+            android:summary="   adjust coordinate refresh time interval"
+            android:title="@string/drorefresh" />
+
+        <ListPreference
+            android:defaultValue="2"
+            android:dialogTitle="Adjust DRO resolution"
+            android:entries="@array/droRes"
+            android:entryValues="@array/droResValues"
+            android:key="dro_res"
+            android:layout_height="-2"
+            android:layout_width="-2"
+            android:summary="   adjust DRO resolution"
+            android:title="@string/drores" />
+    </PreferenceScreen>
+</PreferenceScreen>
