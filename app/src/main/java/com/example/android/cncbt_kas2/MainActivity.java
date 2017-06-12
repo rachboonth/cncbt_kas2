@@ -129,165 +129,165 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
     private TextView txtSTAT;
     View view;
 
-    /* renamed from: om.example.android.cncbt_kas2.MainActivity.14 */
+    /* renamed from: om.example.android.cncbt_kas2.14 */
     class AnonymousClass14 implements Runnable {
         private final /* synthetic */ String val$comment;
 
         AnonymousClass14(String str) {
-            this.val$comment = str;
+            val$comment = str;
         }
 
         public void run() {
-            MainActivity.this.mResponse.append("\n" + this.val$comment);
+           mResponse.append("\n" + val$comment);
         }
     }
 
-    /* renamed from: om.example.android.cncbt_kas2.MainActivity.15 */
+    /* renamed from: om.example.android.cncbt_kas2.15 */
     class AnonymousClass15 implements Runnable {
         private final /* synthetic */ String val$sent;
 
         AnonymousClass15(String str) {
-            this.val$sent = str;
+            val$sent = str;
         }
 
         public void run() {
-            MainActivity.this.mResponse.append("\n" + this.val$sent);
+           mResponse.append("\n" + val$sent);
         }
     }
 
-    /* renamed from: om.example.android.cncbt_kas2.MainActivity.16 */
+    /* renamed from: om.example.android.cncbt_kas2.16 */
     class AnonymousClass16 implements Runnable {
         private final /* synthetic */ String val$sent;
 
         AnonymousClass16(String str) {
-            this.val$sent = str;
+            val$sent = str;
         }
 
         public void run() {
-            MainActivity.this.mResponse.append("\n" + this.val$sent);
+           mResponse.append("\n" + val$sent);
         }
     }
 
-    /* renamed from: om.example.android.cncbt_kas2.MainActivity.1 */
+    /* renamed from: om.example.android.cncbt_kas2.1 */
     class C00001 extends Handler {
         C00001() {
         }
 
         public void handleMessage(Message msg) {
             switch (msg.what) {
-                case MainActivity.REQUEST_CONNECT_DEVICE /*1*/:
+                case REQUEST_CONNECT_DEVICE /*1*/:
                     switch (msg.arg1) {
                         case 0:
-                            ToneGenerator tg2 = new ToneGenerator(MainActivity.MESSAGE_TOAST, 80);
+                            ToneGenerator tg2 = new ToneGenerator(MESSAGE_TOAST, 80);
                             tg2.startTone(24);
                             tg2.release();
                            // C0013R.string.title_not_connected;
-                            MainActivity.this.mTxtStatus.setTextColor(Color.rgb(255, 0, 0));
-                            MainActivity.this.mTxtStatus.setText(R.string.title_not_connected);
-                        case MainActivity.REQUEST_ENABLE_BT /*2*/:
-                            MainActivity.this.mTxtStatus.setTextColor(Color.rgb(255, 0, 0));
-                            MainActivity.this.mTxtStatus.setText(R.string.title_connecting);
-                        case MainActivity.MESSAGE_WRITE /*3*/:
-                            MainActivity.this.mTxtStatus.setTextColor(Color.rgb(0, 255, 0));
-                            MainActivity.this.mTxtStatus.setText(R.string.title_connected_to);
-                            MainActivity.this.mTxtStatus.append(" " + MainActivity.this.mConnectedDeviceName);
-                            MainActivity.this.connectOnce = false;
-                            MainActivity.this.sendMessage("$10=3\n");
+                           mTxtStatus.setTextColor(Color.rgb(255, 0, 0));
+                           mTxtStatus.setText(R.string.title_not_connected);
+                        case REQUEST_ENABLE_BT /*2*/:
+                           mTxtStatus.setTextColor(Color.rgb(255, 0, 0));
+                           mTxtStatus.setText(R.string.title_connecting);
+                        case MESSAGE_WRITE /*3*/:
+                           mTxtStatus.setTextColor(Color.rgb(0, 255, 0));
+                           mTxtStatus.setText(R.string.title_connected_to);
+                           mTxtStatus.append(" " + mConnectedDeviceName);
+                           connectOnce = false;
+                           mResponse.append("$10=3\n");
                         default:
                     }
-                case MainActivity.REQUEST_ENABLE_BT /*2*/:
-                    MainActivity.this.readMessage = (String) msg.obj;
-                    if (MainActivity.this.readMessage.contains("MPos:") || MainActivity.this.readMessage.contains("WPos:")) {
-                        if (MainActivity.this.droDisplay != MainActivity.MESSAGE_WRITE) {
-                            MainActivity.this.parseStatus(MainActivity.this.readMessage);
+                case REQUEST_ENABLE_BT /*2*/:
+                   readMessage = (String) msg.obj;
+                    if (readMessage.contains("MPos:") ||readMessage.contains("WPos:")) {
+                        if (droDisplay != MESSAGE_WRITE) {
+                           parseStatus(readMessage);
                         } else {
-                            MainActivity.this.mResponse.setText(MainActivity.this.readMessage);
+                           mResponse.setText(readMessage);
                         }
-                    } else if (MainActivity.this.readMessage.contains("['$' for help]")) {
-                        MainActivity.this.grblReset = true;
-                        MainActivity.this.mResponse.setText("** GRBL reset **    " + MainActivity.this.readMessage);
-                        MainActivity.this.mButtonStreamFile.setText("Start");
-                        MainActivity.this.mButtonStreamFile.setTextColor(MainActivity.this.oldColor2);
-                        MainActivity.this.enableButton(true);
-                    } else if (MainActivity.this.readMessage.contains("error") || MainActivity.this.readMessage.toLowerCase(Locale.US).startsWith("alarm")) {
-                        MainActivity.this.mResponse.setTextColor(0x65536);
-                        MainActivity.this.mResponse.append("\n");
-                        MainActivity.this.isStreaming = false;
-                        MainActivity.this.responseAvailable = false;
-                        MainActivity.this.bufferList.clear();
-                        MainActivity.this.mButtonStreamFile.setText("Start");
-                        MainActivity.this.mButtonStreamFile.setTextColor(MainActivity.this.oldColor2);
-                        MainActivity.this.enableButton(true);
-                        MainActivity.this.mResponse.append("\n" + MainActivity.this.readMessage);
+                    } else if (readMessage.contains("['$' for help]")) {
+                       grblReset = true;
+                       mResponse.setText("** GRBL reset **    " +readMessage);
+                       mButtonStreamFile.setText("Start");
+                       mButtonStreamFile.setTextColor(oldColor2);
+                       enableButton(true);
+                    } else if (readMessage.contains("error") ||readMessage.toLowerCase(Locale.US).startsWith("alarm")) {
+                       mResponse.setTextColor(0x65536);
+                       mResponse.append("\n");
+                       isStreaming = false;
+                       responseAvailable = false;
+                       bufferList.clear();
+                       mButtonStreamFile.setText("Start");
+                       mButtonStreamFile.setTextColor(oldColor2);
+                       enableButton(true);
+                       mResponse.append("\n" +readMessage);
                     } else {
-                        MainActivity.this.mResponse.setTextColor(MainActivity.this.oldColor);
-                        if (MainActivity.this.readMessage.contains("ok")) {
-                            MainActivity.this.responseAvailable = true;
-                            if (MainActivity.this.optimize && MainActivity.this.isStreaming && MainActivity.this.bufferList.size() > 0) {
-                                MainActivity.this.bufferList.remove(0);
+                       mResponse.setTextColor(oldColor);
+                        if (readMessage.contains("ok")) {
+                           responseAvailable = true;
+                            if (optimize &&isStreaming &&bufferList.size() > 0) {
+                               bufferList.remove(0);
                             }
-                            if (MainActivity.this.commandCodeDisplay) {
-                                MainActivity.this.mResponse.append("*" + MainActivity.this.readMessage);
+                            if (commandCodeDisplay) {
+                               mResponse.append("*" +readMessage);
                                 return;
                             }
                             return;
                         }
-                        if (MainActivity.this.readMessage.contains("[Pgm End]")) {
-                            MainActivity.this.tg.startTone(24);
-                            MainActivity.this.mResponse.append("\n");
+                        if (readMessage.contains("[Pgm End]")) {
+                           tg.startTone(24);
+                           mResponse.append("\n");
                         }
-                        if (MainActivity.this.isStreaming) {
-                            MainActivity.this.mResponse.append("\n");
+                        if (isStreaming) {
+                           mResponse.append("\n");
                         }
-                        MainActivity.this.mResponse.append(MainActivity.this.readMessage);
+                       mResponse.append(readMessage);
                     }
-                case MainActivity.MESSAGE_DEVICE_NAME /*4*/:
-                    MainActivity.this.mConnectedDeviceName = msg.getData().getString(MainActivity.DEVICE_NAME);
-                    Toast.makeText(MainActivity.this.getApplicationContext(), "Connected to " + MainActivity.this.mConnectedDeviceName, Toast.LENGTH_SHORT).show();
-                case MainActivity.MESSAGE_TOAST /*5*/:
-                    Toast.makeText(MainActivity.this.getApplicationContext(), msg.getData().getString(MainActivity.TOAST), Toast.LENGTH_SHORT).show();
+                case MESSAGE_DEVICE_NAME /*4*/:
+                   mConnectedDeviceName = msg.getData().getString(DEVICE_NAME);
+                    Toast.makeText(getApplicationContext(), "Connected to " +mConnectedDeviceName, Toast.LENGTH_SHORT).show();
+                case MESSAGE_TOAST /*5*/:
+                    Toast.makeText(getApplicationContext(), msg.getData().getString(TOAST), Toast.LENGTH_SHORT).show();
                 default:
             }
         }
     }
 
-    /* renamed from: om.example.android.cncbt_kas2.MainActivity.2 */
+    /* renamed from: om.example.android.cncbt_kas2.2 */
     class C00012 implements OnClickListener {
         C00012() {
         }
 
         public void onClick(View v) {
-            if (MainActivity.this.buttonFeedback == MainActivity.REQUEST_ENABLE_BT) {
-                MainActivity.this.tg.startTone(24);
-            } else if (MainActivity.this.buttonFeedback == MainActivity.MESSAGE_DEVICE_NAME) {
-                MainActivity.this.mOptionButton.performHapticFeedback(MainActivity.REQUEST_CONNECT_DEVICE);
+            if (buttonFeedback == REQUEST_ENABLE_BT) {
+               tg.startTone(24);
+            } else if (buttonFeedback == MESSAGE_DEVICE_NAME) {
+               mOptionButton.performHapticFeedback(REQUEST_CONNECT_DEVICE);
             }
-            MainActivity.this.openOptionsMenu();
+           openOptionsMenu();
         }
     }
 
-    /* renamed from: om.example.android.cncbt_kas2.MainActivity.3 */
+    /* renamed from: om.example.android.cncbt_kas2.3 */
     class C00023 implements DialogInterface.OnClickListener {
         C00023() {
         }
 
         public void onClick(DialogInterface dialog, int which) {
-            MainActivity.this.getWindow().setSoftInputMode(MainActivity.MESSAGE_WRITE);
-            String name = MainActivity.this.inputName.getText().toString();
-            String cmd = MainActivity.this.inputCmd.getText().toString();
-            MainActivity.this.editor = MainActivity.this.prefs.edit();
+           getWindow().setSoftInputMode(MESSAGE_WRITE);
+            String name =inputName.getText().toString();
+            String cmd =inputCmd.getText().toString();
+           editor =prefs.edit();
             if (name.equals("")) {
-                name = "B" + (MainActivity.this.selectedButton + MainActivity.REQUEST_CONNECT_DEVICE);
+                name = "B" + (selectedButton + REQUEST_CONNECT_DEVICE);
             }
-            MainActivity.this.editor.putString("btn_name" + MainActivity.this.selectedButton, name);
-            MainActivity.this.editor.putString("ButtonStrCmd" + MainActivity.this.selectedButton, cmd);
-            MainActivity.this.bt[MainActivity.this.selectedButton].setText(name);
-            MainActivity.this.btStrCmd[MainActivity.this.selectedButton] = cmd;
-            MainActivity.this.editor.commit();
+           editor.putString("btn_name" +selectedButton, name);
+           editor.putString("ButtonStrCmd" +selectedButton, cmd);
+           bt[selectedButton].setText(name);
+           btStrCmd[selectedButton] = cmd;
+           editor.commit();
         }
     }
 
-    /* renamed from: om.example.android.cncbt_kas2.MainActivity.4 */
+    /* renamed from: om.example.android.cncbt_kas2.4 */
     class C00034 implements DialogInterface.OnClickListener {
         C00034() {
         }
@@ -297,103 +297,103 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
         }
     }
 
-    /* renamed from: om.example.android.cncbt_kas2.MainActivity.5 */
+    /* renamed from: om.example.android.cncbt_kas2.5 */
     class C00045 implements OnTouchListener {
         private final /* synthetic */ AlertDialog val$ad;
         private final /* synthetic */ int val$b;
 
         C00045(int i, AlertDialog alertDialog) {
-            this.val$b = i;
-            this.val$ad = alertDialog;
+            val$b = i;
+            val$ad = alertDialog;
         }
 
         public boolean onTouch(View v, MotionEvent event) {
-            if (v.isPressed() && event.getAction() == MainActivity.REQUEST_CONNECT_DEVICE) {
+            if (v.isPressed() && event.getAction() == REQUEST_CONNECT_DEVICE) {
                 v.performClick();
-                if (MainActivity.this.buttonFeedback == MainActivity.REQUEST_ENABLE_BT) {
-                    MainActivity.this.tg.startTone(24);
-                } else if (MainActivity.this.buttonFeedback == MainActivity.MESSAGE_DEVICE_NAME) {
-                    MainActivity.this.bt[this.val$b].performHapticFeedback(MainActivity.REQUEST_CONNECT_DEVICE);
+                if (buttonFeedback == REQUEST_ENABLE_BT) {
+                   tg.startTone(24);
+                } else if (buttonFeedback == MESSAGE_DEVICE_NAME) {
+                   bt[val$b].performHapticFeedback(REQUEST_CONNECT_DEVICE);
                 }
-                MainActivity.this.mResponse.setText("");
-                if (event.getEventTime() - event.getDownTime() > MainActivity.this.longPressTimeout) {
-                    MainActivity.this.inputName.setText(MainActivity.this.prefs.getString(new StringBuilder("btn_name").append(this.val$b).toString(), "").equals("") ? "B" + (this.val$b + MainActivity.REQUEST_CONNECT_DEVICE) : MainActivity.this.prefs.getString("btn_name" + this.val$b, "B" + (this.val$b + MainActivity.REQUEST_CONNECT_DEVICE)));
-                    MainActivity.this.inputCmd.setText(MainActivity.this.prefs.getString(new StringBuilder("ButtonStrCmd").append(this.val$b).toString(), "").equals("") ? "" : MainActivity.this.prefs.getString("ButtonStrCmd" + this.val$b, ""));
-                    MainActivity.this.selectedButton = this.val$b;
-                    this.val$ad.show();
-                } else if (MainActivity.this.btStrCmd[this.val$b].trim().length() <= 0) {
-                    Toast.makeText(MainActivity.this, "Button #" + (this.val$b + MainActivity.REQUEST_CONNECT_DEVICE) + " not configured", Toast.LENGTH_SHORT).show();
-                } else if (MainActivity.mRfcommClient.getState() == MainActivity.MESSAGE_WRITE) {
+               mResponse.setText("");
+                if (event.getEventTime() - event.getDownTime() >longPressTimeout) {
+                   inputName.setText(prefs.getString(new StringBuilder("btn_name").append(val$b).toString(), "").equals("") ? "B" + (val$b + REQUEST_CONNECT_DEVICE) :prefs.getString("btn_name" + val$b, "B" + (val$b + REQUEST_CONNECT_DEVICE)));
+                   inputCmd.setText(prefs.getString(new StringBuilder("ButtonStrCmd").append(val$b).toString(), "").equals("") ? "" :prefs.getString("ButtonStrCmd" + val$b, ""));
+                   selectedButton = val$b;
+                    val$ad.show();
+                } else if (btStrCmd[val$b].trim().length() <= 0) {
+                    Toast.makeText(getApplicationContext(), "Button #" + (val$b + REQUEST_CONNECT_DEVICE) + " not configured", Toast.LENGTH_SHORT).show();
+                } else if (mRfcommClient.getState() == MESSAGE_WRITE) {
 
-                    while (MainActivity.mRfcommClient.mConnectedThread.mmInStream != null) {
+                    while (mRfcommClient.mConnectedThread.mmInStream != null) {
                         try {
-                            MainActivity.mRfcommClient.mConnectedThread.mmInStream.read();
+                            mRfcommClient.mConnectedThread.mmInStream.read();
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
                     }
 
-                    if (MainActivity.this.lv.isShown()) {
-                        MainActivity.this.lv.setVisibility(View.VISIBLE);
-                        MainActivity.this.layoutGRBL.setVisibility(View.VISIBLE);
+                    if (lv.isShown()) {
+                       lv.setVisibility(View.VISIBLE);
+                       layoutGRBL.setVisibility(View.VISIBLE);
                     }
-                    MainActivity.this.sendMessage(new StringBuilder(String.valueOf(MainActivity.this.btStrCmd[this.val$b].trim())).append("\n").toString());
+                   sendMessage(new StringBuilder(String.valueOf(btStrCmd[val$b].trim())).append("\n").toString());
                 } else {
-                    Toast.makeText(MainActivity.this, "** Not connected **", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "** Not connected **", Toast.LENGTH_SHORT).show();
                 }
             }
             return false;
         }
     }
 
-    /* renamed from: om.example.android.cncbt_kas2.MainActivity.6 */
+    /* renamed from: om.example.android.cncbt_kas2.6 */
     class C00056 implements OnClickListener {
         C00056() {
         }
 
         public void onClick(View view) {
-            if (MainActivity.this.buttonFeedback == MainActivity.REQUEST_ENABLE_BT) {
-                MainActivity.this.tg.startTone(24);
-            } else if (MainActivity.this.buttonFeedback == MainActivity.MESSAGE_DEVICE_NAME) {
-                MainActivity.this.mButtonStreamFile.performHapticFeedback(MainActivity.REQUEST_CONNECT_DEVICE);
+            if (buttonFeedback == REQUEST_ENABLE_BT) {
+               tg.startTone(24);
+            } else if (buttonFeedback == MESSAGE_DEVICE_NAME) {
+               mButtonStreamFile.performHapticFeedback(REQUEST_CONNECT_DEVICE);
             }
-            MainActivity.this.mButtonTxtSend.clearFocus();
-            MainActivity.this.imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-            if (MainActivity.this.mTxtToSend.getText().toString().trim().length() <= 0) {
-                Toast.makeText(MainActivity.this, "Nothing to send", Toast.LENGTH_SHORT).show();
-            } else if (MainActivity.mRfcommClient.getState() == MainActivity.MESSAGE_WRITE) {
+           mButtonTxtSend.clearFocus();
+           imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            if (mTxtToSend.getText().toString().trim().length() <= 0) {
+                Toast.makeText(getApplicationContext(), "Nothing to send", Toast.LENGTH_SHORT).show();
+            } else if (mRfcommClient.getState() == MESSAGE_WRITE) {
 
-                while (MainActivity.mRfcommClient.mConnectedThread.mmInStream!= null) {
+                while (mRfcommClient.mConnectedThread.mmInStream!= null) {
                     try {
-                        MainActivity.mRfcommClient.mConnectedThread.mmInStream.read();
+                        mRfcommClient.mConnectedThread.mmInStream.read();
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 }
-                MainActivity.this.mResponse.setText("");
-                MainActivity.this.mResponse.scrollTo(0, 0);
-                if (MainActivity.this.lv.isShown()) {
-                    MainActivity.this.lv.setVisibility(View.VISIBLE);
-                    MainActivity.this.layoutGRBL.setVisibility(View.VISIBLE);
+               mResponse.setText("");
+               mResponse.scrollTo(0, 0);
+                if (lv.isShown()) {
+                   lv.setVisibility(View.VISIBLE);
+                   layoutGRBL.setVisibility(View.VISIBLE);
                 }
-                MainActivity.this.sendMessage(new StringBuilder(String.valueOf(MainActivity.this.mTxtToSend.getText().toString().trim())).append("\n").toString());
-                MainActivity.this.mTxtToSend.setText("");
+               sendMessage(new StringBuilder(String.valueOf(mTxtToSend.getText().toString().trim())).append("\n").toString());
+               mTxtToSend.setText("");
             } else {
-                Toast.makeText(MainActivity.this, "** Not connected **", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "** Not connected **", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
-    /* renamed from: om.example.android.cncbt_kas2.MainActivity.7 */
+    /* renamed from: om.example.android.cncbt_kas2.7 */
     class C00077 implements OnClickListener {
 
-        /* renamed from: om.example.android.cncbt_kas2.MainActivity.7.1 */
+        /* renamed from: om.example.android.cncbt_kas2.7.1 */
         class C00061 extends Thread {
             C00061() {
             }
 
             public void run() {
-                MainActivity.this.sendStreamData();
+               sendStreamData();
             }
         }
 
@@ -401,118 +401,118 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
         }
 
         public void onClick(View view) {
-            if (MainActivity.this.buttonFeedback == MainActivity.REQUEST_ENABLE_BT) {
-                MainActivity.this.tg.startTone(24);
-            } else if (MainActivity.this.buttonFeedback == MainActivity.MESSAGE_DEVICE_NAME) {
-                MainActivity.this.mButtonStreamFile.performHapticFeedback(MainActivity.REQUEST_CONNECT_DEVICE);
+            if (buttonFeedback == REQUEST_ENABLE_BT) {
+               tg.startTone(24);
+            } else if (buttonFeedback == MESSAGE_DEVICE_NAME) {
+               mButtonStreamFile.performHapticFeedback(REQUEST_CONNECT_DEVICE);
             }
-            if (MainActivity.this.mButtonStatus3.getText().toString().equals("please select a file ...")) {
-                Toast.makeText(MainActivity.this, "No file loaded", Toast.LENGTH_SHORT).show();
-            } else if (MainActivity.this.mButtonStreamFile.getText().toString().contains("Start")) {
-                if (MainActivity.mRfcommClient.getState() == MainActivity.MESSAGE_WRITE) {
-                    MainActivity.this.pause = false;
-                    MainActivity.this.grblReset = false;
-                    MainActivity.this.isStreaming = true;
-                    MainActivity.this.mButtonStreamFile.setText("Pause");
-                    MainActivity.this.mButtonStreamFile.setTextColor(0xe67300);
-                    MainActivity.this.enableButton(false);
-                    MainActivity.this.mResponse.setTextColor(MainActivity.this.oldColor);
-                    MainActivity.this.mResponse.scrollTo(0, 0);
-                    MainActivity.this.mResponse.setText("** sending " + MainActivity.this.mButtonStatus3.getText() + " **");
-                    if (MainActivity.this.lv.isShown()) {
-                        MainActivity.this.lv.setVisibility(View.VISIBLE);
-                        MainActivity.this.layoutGRBL.setVisibility(View.VISIBLE);
+            if (mButtonStatus3.getText().toString().equals("please select a file ...")) {
+                Toast.makeText(getApplicationContext(), "No file loaded", Toast.LENGTH_SHORT).show();
+            } else if (mButtonStreamFile.getText().toString().contains("Start")) {
+                if (mRfcommClient.getState() == MESSAGE_WRITE) {
+                   pause = false;
+                   grblReset = false;
+                   isStreaming = true;
+                   mButtonStreamFile.setText("Pause");
+                   mButtonStreamFile.setTextColor(0xe67300);
+                   enableButton(false);
+                   mResponse.setTextColor(oldColor);
+                   mResponse.scrollTo(0, 0);
+                   mResponse.setText("** sending " +mButtonStatus3.getText() + " **");
+                    if (lv.isShown()) {
+                       lv.setVisibility(View.VISIBLE);
+                       layoutGRBL.setVisibility(View.VISIBLE);
                     }
                     new C00061().start();
                     return;
                 }
-                Toast.makeText(MainActivity.this, "** Not connected **", Toast.LENGTH_SHORT).show();
-            } else if (MainActivity.this.mButtonStreamFile.getText().toString().contains("Pause")) {
-                MainActivity.this.pause = true;
-                MainActivity.this.sendMessage("!");
-                MainActivity.this.enableButton(true);
-                MainActivity.this.mButtonStreamFile.setText("Resume");
-                MainActivity.this.mButtonStreamFile.setTextColor(0xace600);
-                MainActivity.this.mResponse.append("\n < pause >");
-            } else if (MainActivity.this.mButtonStreamFile.getText().toString().contains("Resume")) {
-                MainActivity.this.pause = false;
-                MainActivity.this.sendMessage("~");
-                MainActivity.this.enableButton(false);
-                MainActivity.this.mButtonStreamFile.setText("Pause");
-                MainActivity.this.mButtonStreamFile.setTextColor(0xe67300);
-                MainActivity.this.mResponse.append("\n < resume >\n");
+                Toast.makeText(getApplicationContext(), "** Not connected **", Toast.LENGTH_SHORT).show();
+            } else if (mButtonStreamFile.getText().toString().contains("Pause")) {
+               pause = true;
+               sendMessage("!");
+               enableButton(true);
+               mButtonStreamFile.setText("Resume");
+               mButtonStreamFile.setTextColor(0xace600);
+               mResponse.append("\n < pause >");
+            } else if (mButtonStreamFile.getText().toString().contains("Resume")) {
+               pause = false;
+               sendMessage("~");
+               enableButton(false);
+               mButtonStreamFile.setText("Pause");
+               mButtonStreamFile.setTextColor(0xe67300);
+               mResponse.append("\n < resume >\n");
             }
         }
     }
 
-    /* renamed from: om.example.android.cncbt_kas2.MainActivity.8 */
+    /* renamed from: om.example.android.cncbt_kas2.8 */
     class C00088 implements OnItemClickListener {
         C00088() {
         }
 
         public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-            MainActivity.this.fileToRead = String.valueOf(parent.getItemAtPosition(position));
-            MainActivity.this.mButtonStatus3.setTextColor(MainActivity.this.oldColor);
-            MainActivity.this.mButtonStatus3.setText(MainActivity.this.fileToRead);
-            MainActivity.this.fileToRead = new StringBuilder(String.valueOf(Environment.getExternalStorageDirectory().getPath())).append("/download/").append(MainActivity.this.fileToRead).toString();
-            MainActivity.this.lv.setVisibility(View.VISIBLE);
-            MainActivity.this.layoutGRBL.setVisibility(View.VISIBLE);
+           fileToRead = String.valueOf(parent.getItemAtPosition(position));
+           mButtonStatus3.setTextColor(oldColor);
+           mButtonStatus3.setText(fileToRead);
+           fileToRead = new StringBuilder(String.valueOf(Environment.getExternalStorageDirectory().getPath())).append("/download/").append(fileToRead).toString();
+           lv.setVisibility(View.VISIBLE);
+           layoutGRBL.setVisibility(View.VISIBLE);
         }
     }
 
-    /* renamed from: om.example.android.cncbt_kas2.MainActivity.9 */
+    /* renamed from: om.example.android.cncbt_kas2.9 */
     class C00099 implements OnClickListener {
         C00099() {
         }
 
         public void onClick(View view) {
-            if (MainActivity.this.lv.isShown()) {
-                MainActivity.this.lv.setVisibility(View.VISIBLE);
-                MainActivity.this.layoutGRBL.setVisibility(View.VISIBLE);
+            if (lv.isShown()) {
+               lv.setVisibility(View.VISIBLE);
+               layoutGRBL.setVisibility(View.VISIBLE);
                 return;
             }
-            MainActivity.this.mResponse.setText("");
-            MainActivity.this.layoutGRBL.setVisibility(View.VISIBLE);
-            MainActivity.this.lv.setVisibility(View.VISIBLE );
-            if (MainActivity.this.buttonFeedback == MainActivity.REQUEST_ENABLE_BT) {
-                MainActivity.this.tg.startTone(24);
-            } else if (MainActivity.this.buttonFeedback == MainActivity.MESSAGE_DEVICE_NAME) {
-                MainActivity.this.mButtonStreamFile.performHapticFeedback(MainActivity.REQUEST_CONNECT_DEVICE);
+           mResponse.setText("");
+           layoutGRBL.setVisibility(View.VISIBLE);
+           lv.setVisibility(View.VISIBLE );
+            if (buttonFeedback == REQUEST_ENABLE_BT) {
+               tg.startTone(24);
+            } else if (buttonFeedback == MESSAGE_DEVICE_NAME) {
+               mButtonStreamFile.performHapticFeedback(REQUEST_CONNECT_DEVICE);
             }
-            ArrayList<String> FilesInFolder = MainActivity.this.GetFiles(new StringBuilder(String.valueOf(Environment.getExternalStorageDirectory().getPath())).append("/download").toString());
+            ArrayList<String> FilesInFolder =GetFiles(new StringBuilder(String.valueOf(Environment.getExternalStorageDirectory().getPath())).append("/download").toString());
             if (FilesInFolder != null) {
-                MainActivity.this.lv.setAdapter(new ArrayAdapter(MainActivity.this, R.layout.mylist, FilesInFolder));
+               lv.setAdapter(new ArrayAdapter(getApplicationContext(), R.layout.mylist, FilesInFolder));
             } else {
-                Toast.makeText(MainActivity.this, "** No CNC files **", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "** No CNC files **", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
     public MainActivity() {
-        this.TAG = "kas";
-        this.mConnectedDeviceName = null;
-        this.mBluetoothAdapter = null;
-        this.buttonFeedback = MESSAGE_DEVICE_NAME;
-        this.autoConnect = false;
-        this.MacAddress = "";
-        this.connectOnce = true;
-        this.readMessage = "";
-        this.longPressTimeout = 1500;
-        this.selectedButton = 0;
-        this.timeoutMax = 30;
-        this.responseAvailable = false;
-        this.pause = false;
+        TAG = "kas";
+        mConnectedDeviceName = null;
+        mBluetoothAdapter = null;
+        buttonFeedback = MESSAGE_DEVICE_NAME;
+        autoConnect = false;
+        MacAddress = "";
+        connectOnce = true;
+        readMessage = "";
+        longPressTimeout = 1500;
+        selectedButton = 0;
+        timeoutMax = 30;
+        responseAvailable = false;
+        pause = false;
         byte[] bArr = new byte[REQUEST_CONNECT_DEVICE];
         bArr[0] = (byte) 63;
-        this.qMark = bArr;
-        this.tg = null;
-        this.bufferList = new ArrayList();
-        this.optimize = true;
-        this.isStreaming = false;
-        this.bt = new Button[idArray.length];
-        this.btStrCmd = new String[idArray.length];
-        this.noDRO = false;
-        this.mHandler = new C00001();
+        qMark = bArr;
+        tg = null;
+        bufferList = new ArrayList();
+        optimize = true;
+        isStreaming = false;
+        bt = new Button[idArray.length];
+        btStrCmd = new String[idArray.length];
+        noDRO = false;
+        mHandler = new C00001();
     }
 
     static {
@@ -526,150 +526,150 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
         requestWindowFeature(REQUEST_CONNECT_DEVICE);
         setContentView(R.layout.activity_main);
         getWindow().setSoftInputMode(REQUEST_ENABLE_BT);
-        this.view = getCurrentFocus();
+        view = getCurrentFocus();
         getWindow().setFlags(1024, 1024);
-        //this.imm = (InputMethodManager) getSystemService(InputMethodManager);
-        this.prefs = PreferenceManager.getDefaultSharedPreferences(this);
-        this.prefs.registerOnSharedPreferenceChangeListener(this);
-        this.editor = this.prefs.edit();
-        this.mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        if (this.mBluetoothAdapter == null) {
-            Toast.makeText(this, "Bluetooth is not available", REQUEST_CONNECT_DEVICE).show();
+        //imm = (InputMethodManager) getSystemService(InputMethodManager);
+        prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        prefs.registerOnSharedPreferenceChangeListener(this);
+        editor = prefs.edit();
+        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+        if (mBluetoothAdapter == null) {
+            Toast.makeText(getApplicationContext(), "Bluetooth is not available", REQUEST_CONNECT_DEVICE).show();
             finish();
             return;
         }
-        if (!this.mBluetoothAdapter.isEnabled()) {
+        if (!mBluetoothAdapter.isEnabled()) {
             startActivityForResult(new Intent("android.bluetooth.adapter.action.REQUEST_ENABLE"), REQUEST_ENABLE_BT);
         }
-        mRfcommClient = new com.example.android.cncbt_kas2.BluetoothRfcommClient(this, this.mHandler);
-        this.mButtonStatus3 = (TextView) findViewById(R.id.text_Data3);
-        this.oldColor = this.mButtonStatus3.getTextColors();
-        this.mButtonStatus3.setTextColor(0xFF0000);
-        this.mButtonStatus3.setText("please select a file ...");
-        this.mResponse = (TextView) findViewById(R.id.text_feedBack);
-        this.mResponse.setMovementMethod(ScrollingMovementMethod.getInstance());
-        this.mResponse.setClickable(false);
-        this.mResponse.setLongClickable(false);
-        this.autoConnect = this.prefs.getBoolean("Auto_Connect", false);
-        this.optimize = this.prefs.getBoolean("smart_streaming", false);
-        this.buttonFeedback = Integer.parseInt(this.prefs.getString("button_feedback", "4"));
-        this.timeoutMax = Integer.parseInt(this.prefs.getString("timeout", "60"));
-        this.droResolution = Integer.parseInt(this.prefs.getString("dro_res", "2"));
-        this.mUpdatePeriod = Long.parseLong(this.prefs.getString("dro_refresh", "500"));
-        switch (Integer.parseInt(this.prefs.getString("grbl_feedback", "3"))) {
+        mRfcommClient = new com.example.android.cncbt_kas2.BluetoothRfcommClient(getApplicationContext(), mHandler);
+        mButtonStatus3 = (TextView) findViewById(R.id.text_Data3);
+        oldColor = mButtonStatus3.getTextColors();
+        mButtonStatus3.setTextColor(0xFF0000);
+        mButtonStatus3.setText("please select a file ...");
+        mResponse = (TextView) findViewById(R.id.text_feedBack);
+        mResponse.setMovementMethod(ScrollingMovementMethod.getInstance());
+        mResponse.setClickable(false);
+        mResponse.setLongClickable(false);
+        autoConnect = prefs.getBoolean("Auto_Connect", false);
+        optimize = prefs.getBoolean("smart_streaming", false);
+        buttonFeedback = Integer.parseInt(prefs.getString("button_feedback", "4"));
+        timeoutMax = Integer.parseInt(prefs.getString("timeout", "60"));
+        droResolution = Integer.parseInt(prefs.getString("dro_res", "2"));
+        mUpdatePeriod = Long.parseLong(prefs.getString("dro_refresh", "500"));
+        switch (Integer.parseInt(prefs.getString("grbl_feedback", "3"))) {
             case REQUEST_CONNECT_DEVICE /*1*/:
-                this.commentDisplay = true;
-                this.commandCodeDisplay = false;
+                commentDisplay = true;
+                commandCodeDisplay = false;
                 break;
             case REQUEST_ENABLE_BT /*2*/:
-                this.commentDisplay = false;
-                this.commandCodeDisplay = true;
+                commentDisplay = false;
+                commandCodeDisplay = true;
                 break;
             case MESSAGE_WRITE /*3*/:
-                this.commentDisplay = true;
-                this.commandCodeDisplay = true;
+                commentDisplay = true;
+                commandCodeDisplay = true;
                 break;
         }
-        this.mTxtStatus = (TextView) findViewById(R.id.txt_status);
-        this.tg = new ToneGenerator(MESSAGE_TOAST, 50);
-        this.mOptionButton = (ImageButton) findViewById(R.id.Button_Op);
-        this.mOptionButton.setOnClickListener(new C00012());
-        this.builder = new Builder(this).setCancelable(false);
-        this.builder.setTitle("Button configuration");
-        this.inputName = new EditText(this);
-        this.inputName.setHint("Name");
-        this.inputCmd = new EditText(this);
-        this.inputCmd.setHint("Command");
-        LinearLayout ll = new LinearLayout(this);
+        mTxtStatus = (TextView) findViewById(R.id.txt_status);
+        tg = new ToneGenerator(MESSAGE_TOAST, 50);
+        mOptionButton = (ImageButton) findViewById(R.id.Button_Op);
+        mOptionButton.setOnClickListener(new C00012());
+        builder = new Builder(getApplicationContext()).setCancelable(false);
+        builder.setTitle("Button configuration");
+        inputName = new EditText(getApplicationContext());
+        inputName.setHint("Name");
+        inputCmd = new EditText(getApplicationContext());
+        inputCmd.setHint("Command");
+        LinearLayout ll = new LinearLayout(getApplicationContext());
         ll.setOrientation(REQUEST_CONNECT_DEVICE);
-        ll.addView(this.inputName);
-        ll.addView(this.inputCmd);
-        this.builder.setView(ll);
-        this.builder.setPositiveButton("Submit", new C00023());
-        this.builder.setNegativeButton("Cancel", new C00034());
-        AlertDialog ad = this.builder.create();
+        ll.addView(inputName);
+        ll.addView(inputCmd);
+        builder.setView(ll);
+        builder.setPositiveButton("Submit", new C00023());
+        builder.setNegativeButton("Cancel", new C00034());
+        AlertDialog ad = builder.create();
         for (int i = 0; i < idArray.length; i += REQUEST_CONNECT_DEVICE) {
             int b = i;
-            this.bt[b] = (Button) findViewById(idArray[b]);
-            this.bt[b].setText(this.prefs.getString("btn_name" + b, "B" + (b + REQUEST_CONNECT_DEVICE)));
-            this.btStrCmd[b] = this.prefs.getString("ButtonStrCmd" + b, "");
-            this.bt[b].setOnTouchListener(new C00045(b, ad));
+            bt[b] = (Button) findViewById(idArray[b]);
+            bt[b].setText(prefs.getString("btn_name" + b, "B" + (b + REQUEST_CONNECT_DEVICE)));
+            btStrCmd[b] = prefs.getString("ButtonStrCmd" + b, "");
+            bt[b].setOnTouchListener(new C00045(b, ad));
         }
-        this.mTxtToSend = (EditText) findViewById(R.id.editSend);
-        this.layoutGRBL = (LinearLayout) findViewById(R.id.Layout_GRBL);
-        this.layoutButtons = (LinearLayout) findViewById(R.id.LinearLayoutCmd);
-        this.mButtonTxtSend = (Button) findViewById(R.id.ButtonSend);
-        this.mButtonTxtSend.setOnClickListener(new C00056());
-        this.mButtonStreamFile = (Button) findViewById(R.id.buttonstart);
-        this.oldColor2 = this.mButtonStreamFile.getTextColors();
-        this.mButtonStreamFile.setOnClickListener(new C00077());
-        this.lv = (ListView) findViewById(R.id.filelist1);
-        this.lv.setVisibility(MESSAGE_DEVICE_NAME);
-        this.lv.setOnItemClickListener(new C00088());
-        this.mButtonLoad = (Button) findViewById(R.id.Buttonload);
-        this.mButtonLoad.setOnClickListener(new C00099());
-        this.mButtonReset = (Button) findViewById(R.id.Buttonreset);
-        this.mButtonReset.setTextColor(0xFF0000);
-        this.mButtonReset.setOnClickListener(new OnClickListener() {
+        mTxtToSend = (EditText) findViewById(R.id.editSend);
+        layoutGRBL = (LinearLayout) findViewById(R.id.Layout_GRBL);
+        layoutButtons = (LinearLayout) findViewById(R.id.LinearLayoutCmd);
+        mButtonTxtSend = (Button) findViewById(R.id.ButtonSend);
+        mButtonTxtSend.setOnClickListener(new C00056());
+        mButtonStreamFile = (Button) findViewById(R.id.buttonstart);
+        oldColor2 = mButtonStreamFile.getTextColors();
+        mButtonStreamFile.setOnClickListener(new C00077());
+        lv = (ListView) findViewById(R.id.filelist1);
+        lv.setVisibility(MESSAGE_DEVICE_NAME);
+        lv.setOnItemClickListener(new C00088());
+        mButtonLoad = (Button) findViewById(R.id.Buttonload);
+        mButtonLoad.setOnClickListener(new C00099());
+        mButtonReset = (Button) findViewById(R.id.Buttonreset);
+        mButtonReset.setTextColor(0xFF0000);
+        mButtonReset.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
-                if (MainActivity.this.buttonFeedback == MainActivity.REQUEST_ENABLE_BT) {
-                    MainActivity.this.tg.startTone(24);
-                } else if (MainActivity.this.buttonFeedback == MainActivity.MESSAGE_DEVICE_NAME) {
-                    MainActivity.this.mButtonReset.performHapticFeedback(MainActivity.REQUEST_CONNECT_DEVICE);
+                if (buttonFeedback == REQUEST_ENABLE_BT) {
+                   tg.startTone(24);
+                } else if (buttonFeedback == MESSAGE_DEVICE_NAME) {
+                   mButtonReset.performHapticFeedback(REQUEST_CONNECT_DEVICE);
                 }
-                MainActivity.this.noDRO = true;
-                MainActivity.this.sendMessage("!");
-                MainActivity.this.noDRO = false;
-                MainActivity.this.grblReset = true;
-                byte[] ctrlX = new byte[MainActivity.REQUEST_CONNECT_DEVICE];
+               noDRO = true;
+               sendMessage("!");
+               noDRO = false;
+               grblReset = true;
+                byte[] ctrlX = new byte[REQUEST_CONNECT_DEVICE];
                 ctrlX[0] = (byte) 24;
-                MainActivity.mRfcommClient.write(ctrlX);
-                MainActivity.this.isStreaming = false;
+                mRfcommClient.write(ctrlX);
+               isStreaming = false;
             }
         });
-        if (this.connectOnce && this.autoConnect) {
+        if (connectOnce && autoConnect) {
             try {
-                this.MacAddress = this.prefs.getString("LastMacAddress", "");
-                if (this.MacAddress.length() == 17) {
-                    mRfcommClient.connect(this.mBluetoothAdapter.getRemoteDevice(this.MacAddress));
+                MacAddress = prefs.getString("LastMacAddress", "");
+                if (MacAddress.length() == 17) {
+                    mRfcommClient.connect(mBluetoothAdapter.getRemoteDevice(MacAddress));
                 }
             } catch (Exception e) {
             }
-            this.connectOnce = false;
+            connectOnce = false;
         }
-        this.layoutDRO = (LinearLayout) findViewById(R.id.layoutdro);
-        this.txtSTAT = (TextView) findViewById(R.id.textstatus);
-        this.txtDRO_X = (TextView) findViewById(R.id.textviewX);
-        this.txtDRO_Y = (TextView) findViewById(R.id.textviewY);
-        this.txtDRO_Z = (TextView) findViewById(R.id.textviewZ);
-        this.txtDRO_Xm = (TextView) findViewById(R.id.textviewXm);
-        this.txtDRO_Ym = (TextView) findViewById(R.id.textviewYm);
-        this.txtDRO_Zm = (TextView) findViewById(R.id.textviewZm);
-        this.mUpdateTimer = new Timer();
-        this.droDisplay = Integer.parseInt(this.prefs.getString("dro_display", "3"));
-        switch (this.droDisplay) {
+        layoutDRO = (LinearLayout) findViewById(R.id.layoutdro);
+        txtSTAT = (TextView) findViewById(R.id.textstatus);
+        txtDRO_X = (TextView) findViewById(R.id.textviewX);
+        txtDRO_Y = (TextView) findViewById(R.id.textviewY);
+        txtDRO_Z = (TextView) findViewById(R.id.textviewZ);
+        txtDRO_Xm = (TextView) findViewById(R.id.textviewXm);
+        txtDRO_Ym = (TextView) findViewById(R.id.textviewYm);
+        txtDRO_Zm = (TextView) findViewById(R.id.textviewZm);
+        mUpdateTimer = new Timer();
+        droDisplay = Integer.parseInt(prefs.getString("dro_display", "3"));
+        switch (droDisplay) {
             case REQUEST_CONNECT_DEVICE /*1*/:
-                showDro(this.layoutDRO, 0);
-                this.mUpdateTimer = new Timer();
-                this.mUpdateTimer.schedule(new TimerTask() {
+                showDro(layoutDRO, 0);
+                mUpdateTimer = new Timer();
+                mUpdateTimer.schedule(new TimerTask() {
                     public void run() {
-                        if (!MainActivity.this.noDRO && MainActivity.mRfcommClient.getState() == MainActivity.MESSAGE_WRITE) {
-                            MainActivity.mRfcommClient.write(MainActivity.this.qMark);
+                        if (!noDRO && mRfcommClient.getState() == MESSAGE_WRITE) {
+                            mRfcommClient.write(qMark);
                         }
                     }
-                }, 1500, this.mUpdatePeriod);
+                }, 1500, mUpdatePeriod);
             case REQUEST_ENABLE_BT /*2*/:
-                showDro(this.layoutDRO, 0);
-                this.mUpdateTimer = new Timer();
-                this.mUpdateTimer.schedule(new TimerTask() {
+                showDro(layoutDRO, 0);
+                mUpdateTimer = new Timer();
+                mUpdateTimer.schedule(new TimerTask() {
                     public void run() {
-                        if (!MainActivity.this.noDRO && MainActivity.mRfcommClient.getState() == MainActivity.MESSAGE_WRITE) {
-                            MainActivity.mRfcommClient.write(MainActivity.this.qMark);
+                        if (!noDRO && mRfcommClient.getState() == MESSAGE_WRITE) {
+                            mRfcommClient.write(qMark);
                         }
                     }
-                }, 1500, this.mUpdatePeriod);
+                }, 1500, mUpdatePeriod);
             case MESSAGE_WRITE /*3*/:
-                showDro(this.layoutDRO, MESSAGE_DEVICE_NAME);
+                showDro(layoutDRO, MESSAGE_DEVICE_NAME);
             default:
         }
     }
@@ -681,56 +681,56 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
                 String[] status = separated[0].split("\\,");
                 String[] posW = separated[REQUEST_CONNECT_DEVICE].split("\\,");
                 String[] posM = separated[REQUEST_ENABLE_BT].split("\\,");
-                this.txtSTAT.setText(status[0]);
-                if (this.droResolution == REQUEST_CONNECT_DEVICE) {
-                    this.txtDRO_X.setText(posW[0].substring(0, posW[0].length() - 2));
-                    this.txtDRO_Y.setText(posW[REQUEST_CONNECT_DEVICE].substring(0, posW[REQUEST_CONNECT_DEVICE].length() - 2));
-                    this.txtDRO_Z.setText(posW[REQUEST_ENABLE_BT].substring(0, posW[REQUEST_ENABLE_BT].length() - 2));
-                    if (this.droDisplay == REQUEST_ENABLE_BT) {
-                        this.txtDRO_Xm.setText(posM[0].substring(0, posM[0].length() - 2));
-                        this.txtDRO_Ym.setText(posM[REQUEST_CONNECT_DEVICE].substring(0, posM[REQUEST_CONNECT_DEVICE].length() - 2));
-                        this.txtDRO_Zm.setText(posM[REQUEST_ENABLE_BT].substring(0, posM[REQUEST_ENABLE_BT].length() - 2));
+                txtSTAT.setText(status[0]);
+                if (droResolution == REQUEST_CONNECT_DEVICE) {
+                    txtDRO_X.setText(posW[0].substring(0, posW[0].length() - 2));
+                    txtDRO_Y.setText(posW[REQUEST_CONNECT_DEVICE].substring(0, posW[REQUEST_CONNECT_DEVICE].length() - 2));
+                    txtDRO_Z.setText(posW[REQUEST_ENABLE_BT].substring(0, posW[REQUEST_ENABLE_BT].length() - 2));
+                    if (droDisplay == REQUEST_ENABLE_BT) {
+                        txtDRO_Xm.setText(posM[0].substring(0, posM[0].length() - 2));
+                        txtDRO_Ym.setText(posM[REQUEST_CONNECT_DEVICE].substring(0, posM[REQUEST_CONNECT_DEVICE].length() - 2));
+                        txtDRO_Zm.setText(posM[REQUEST_ENABLE_BT].substring(0, posM[REQUEST_ENABLE_BT].length() - 2));
                         return;
                     }
                     return;
-                } else if (this.droResolution == REQUEST_ENABLE_BT) {
-                    this.txtDRO_X.setText(posW[0].substring(0, posW[0].length() - 1));
-                    this.txtDRO_Y.setText(posW[REQUEST_CONNECT_DEVICE].substring(0, posW[REQUEST_CONNECT_DEVICE].length() - 1));
-                    this.txtDRO_Z.setText(posW[REQUEST_ENABLE_BT].substring(0, posW[REQUEST_ENABLE_BT].length() - 1));
-                    if (this.droDisplay == REQUEST_ENABLE_BT) {
-                        this.txtDRO_Xm.setText(posM[0].substring(0, posM[0].length() - 1));
-                        this.txtDRO_Ym.setText(posM[REQUEST_CONNECT_DEVICE].substring(0, posM[REQUEST_CONNECT_DEVICE].length() - 1));
-                        this.txtDRO_Zm.setText(posM[REQUEST_ENABLE_BT].substring(0, posM[REQUEST_ENABLE_BT].length() - 1));
+                } else if (droResolution == REQUEST_ENABLE_BT) {
+                    txtDRO_X.setText(posW[0].substring(0, posW[0].length() - 1));
+                    txtDRO_Y.setText(posW[REQUEST_CONNECT_DEVICE].substring(0, posW[REQUEST_CONNECT_DEVICE].length() - 1));
+                    txtDRO_Z.setText(posW[REQUEST_ENABLE_BT].substring(0, posW[REQUEST_ENABLE_BT].length() - 1));
+                    if (droDisplay == REQUEST_ENABLE_BT) {
+                        txtDRO_Xm.setText(posM[0].substring(0, posM[0].length() - 1));
+                        txtDRO_Ym.setText(posM[REQUEST_CONNECT_DEVICE].substring(0, posM[REQUEST_CONNECT_DEVICE].length() - 1));
+                        txtDRO_Zm.setText(posM[REQUEST_ENABLE_BT].substring(0, posM[REQUEST_ENABLE_BT].length() - 1));
                         return;
                     }
                     return;
                 } else {
-                    this.txtDRO_X.setText(posW[0]);
-                    this.txtDRO_Y.setText(posW[REQUEST_CONNECT_DEVICE]);
-                    this.txtDRO_Z.setText(posW[REQUEST_ENABLE_BT]);
-                    if (this.droDisplay == REQUEST_ENABLE_BT) {
-                        this.txtDRO_Xm.setText(posM[0]);
-                        this.txtDRO_Ym.setText(posM[REQUEST_CONNECT_DEVICE]);
-                        this.txtDRO_Zm.setText(posM[REQUEST_ENABLE_BT]);
+                    txtDRO_X.setText(posW[0]);
+                    txtDRO_Y.setText(posW[REQUEST_CONNECT_DEVICE]);
+                    txtDRO_Z.setText(posW[REQUEST_ENABLE_BT]);
+                    if (droDisplay == REQUEST_ENABLE_BT) {
+                        txtDRO_Xm.setText(posM[0]);
+                        txtDRO_Ym.setText(posM[REQUEST_CONNECT_DEVICE]);
+                        txtDRO_Zm.setText(posM[REQUEST_ENABLE_BT]);
                         return;
                     }
                     return;
                 }
             }
-            this.txtDRO_X.setText("err#2");
-            this.txtDRO_Y.setText("XXX");
-            this.txtDRO_Z.setText("XXX");
+            txtDRO_X.setText("err#2");
+            txtDRO_Y.setText("XXX");
+            txtDRO_Z.setText("XXX");
         } catch (Exception e) {
-            this.txtDRO_X.setText("err#1");
-            this.txtDRO_Y.setText("XXX");
-            this.txtDRO_Z.setText("XXX");
+            txtDRO_X.setText("err#1");
+            txtDRO_Y.setText("XXX");
+            txtDRO_Z.setText("XXX");
         }
     }
 
     private void enableButton(boolean enable) {
-        this.mButtonLoad.setEnabled(enable);
-        for (int i = 0; i < this.layoutButtons.getChildCount(); i += REQUEST_CONNECT_DEVICE) {
-            View child = this.layoutButtons.getChildAt(i);
+        mButtonLoad.setEnabled(enable);
+        for (int i = 0; i < layoutButtons.getChildCount(); i += REQUEST_CONNECT_DEVICE) {
+            View child = layoutButtons.getChildAt(i);
             child.setEnabled(enable);
             if (child instanceof ViewGroup) {
                 ViewGroup group = (ViewGroup) child;
@@ -956,48 +956,48 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
         r10 = r8;
         goto L_0x00bf;
         */
-        throw new UnsupportedOperationException("Method not decompiled: om.example.android.cncbt_kas2.MainActivity.sendStreamData():void");
+        throw new UnsupportedOperationException("Method not decompiled: om.example.android.cncbt_kas2.sendStreamData():void");
     }
 
     public boolean onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        if (this.isStreaming) {
-            this.mItemOptions.setEnabled(false);
-            this.mItemResetOpt.setEnabled(false);
+        if (isStreaming) {
+            mItemOptions.setEnabled(false);
+            mItemResetOpt.setEnabled(false);
         } else {
-            this.mItemOptions.setEnabled(true);
-            this.mItemResetOpt.setEnabled(true);
+            mItemOptions.setEnabled(true);
+            mItemResetOpt.setEnabled(true);
         }
         return true;
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
-        this.mItemConnect = menu.add("Connect");
-        this.mItemOptions = menu.add("Options");
-        this.mItemResetOpt = menu.add("reset Options");
-        this.mItemAbout = menu.add("About");
+        mItemConnect = menu.add("Connect");
+        mItemOptions = menu.add("Options");
+        mItemResetOpt = menu.add("reset Options");
+        mItemAbout = menu.add("About");
         return super.onCreateOptionsMenu(menu);
     }
 
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item == this.mItemConnect) {
-            startActivityForResult(new Intent(this, com.example.android.cncbt_kas2.DeviceListActivity.class), REQUEST_CONNECT_DEVICE);
-        } else if (item == this.mItemOptions) {
-            startActivity(new Intent(this, com.example.android.cncbt_kas2.OptionsActivity.class));
-        } else if (item == this.mItemResetOpt) {
-            Builder dlg = new Builder(this);
+        if (item == mItemConnect) {
+            startActivityForResult(new Intent(getApplicationContext(), com.example.android.cncbt_kas2.DeviceListActivity.class), REQUEST_CONNECT_DEVICE);
+        } else if (item == mItemOptions) {
+            startActivity(new Intent(getApplicationContext(), com.example.android.cncbt_kas2.OptionsActivity.class));
+        } else if (item == mItemResetOpt) {
+            Builder dlg = new Builder(getApplicationContext());
             dlg.setMessage("Revert to default factory config ??\n (will reset BT communication)");
             dlg.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
-                    if (MainActivity.mRfcommClient != null) {
-                        MainActivity.mRfcommClient.stop();
+                    if (mRfcommClient != null) {
+                        mRfcommClient.stop();
                     }
-                    MainActivity.this.editor.clear();
-                    MainActivity.this.editor.commit();
-                    MainActivity.this.finish();
-                    MainActivity.this.overridePendingTransition(0, 0);
-                    MainActivity.this.startActivity(MainActivity.this.getIntent());
-                    MainActivity.this.overridePendingTransition(0, 0);
+                   editor.clear();
+                   editor.commit();
+                   finish();
+                   overridePendingTransition(0, 0);
+                   startActivity(getIntent());
+                   overridePendingTransition(0, 0);
                 }
             });
             dlg.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -1006,7 +1006,7 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
                 }
             });
             dlg.show();
-        } else if (item == this.mItemAbout) {
+        } else if (item == mItemAbout) {
             try {
                 //((TextView) new Builder(this).setTitle(getString(R.string.app_long_name) + "  V" + getPackageManager().getPackageInfo(getPackageName(), 0).versionName + "\n           @kas 2015").setMessage("from an original idea by billcat").show().findViewById(16908299)).setMovementMethod(LinkMovementMethod.getInstance());
             } catch (Exception e) {
@@ -1018,84 +1018,84 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
 
     public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
         if (key.equals("Auto_Connect")) {
-            this.autoConnect = prefs.getBoolean("Auto_Connect", false);
+            autoConnect = prefs.getBoolean("Auto_Connect", false);
         } else if (key.equals("smart_streaming")) {
-            this.optimize = prefs.getBoolean("smart_streaming", false);
+            optimize = prefs.getBoolean("smart_streaming", false);
         } else if (key.equals("button_feedback")) {
-            this.buttonFeedback = Integer.parseInt(prefs.getString("button_feedback", "4"));
+            buttonFeedback = Integer.parseInt(prefs.getString("button_feedback", "4"));
         } else if (key.equals("timeout")) {
-            this.timeoutMax = Integer.parseInt(prefs.getString("timeout", "60"));
+            timeoutMax = Integer.parseInt(prefs.getString("timeout", "60"));
         } else if (key.equals("dro_res")) {
-            this.droResolution = Integer.parseInt(prefs.getString("dro_res", "2"));
+            droResolution = Integer.parseInt(prefs.getString("dro_res", "2"));
         } else if (key.equals("grbl_feedback")) {
             switch (Integer.parseInt(prefs.getString("grbl_feedback", "3"))) {
                 case REQUEST_CONNECT_DEVICE /*1*/:
-                    this.commentDisplay = true;
-                    this.commandCodeDisplay = false;
+                    commentDisplay = true;
+                    commandCodeDisplay = false;
                 case REQUEST_ENABLE_BT /*2*/:
-                    this.commentDisplay = false;
-                    this.commandCodeDisplay = true;
+                    commentDisplay = false;
+                    commandCodeDisplay = true;
                 case MESSAGE_WRITE /*3*/:
-                    this.commentDisplay = true;
-                    this.commandCodeDisplay = true;
+                    commentDisplay = true;
+                    commandCodeDisplay = true;
                 default:
             }
         } else if (key.equals("dro_display")) {
-            this.droDisplay = Integer.parseInt(prefs.getString("dro_display", "3"));
-            switch (this.droDisplay) {
+            droDisplay = Integer.parseInt(prefs.getString("dro_display", "3"));
+            switch (droDisplay) {
                 case REQUEST_CONNECT_DEVICE /*1*/:
-                    this.mUpdateTimer.cancel();
-                    this.mUpdateTimer.purge();
-                    this.mUpdateTimer = new Timer();
-                    this.mUpdateTimer.schedule(new TimerTask() {
+                    mUpdateTimer.cancel();
+                    mUpdateTimer.purge();
+                    mUpdateTimer = new Timer();
+                    mUpdateTimer.schedule(new TimerTask() {
                         public void run() {
-                            if (!MainActivity.this.noDRO && MainActivity.mRfcommClient.getState() == MainActivity.MESSAGE_WRITE) {
-                                MainActivity.mRfcommClient.write(MainActivity.this.qMark);
+                            if (!noDRO && mRfcommClient.getState() == MESSAGE_WRITE) {
+                                mRfcommClient.write(qMark);
                             }
                         }
-                    }, 500, this.mUpdatePeriod);
+                    }, 500, mUpdatePeriod);
                     sendMessage("$10=3\n");
-                    this.txtDRO_Xm.setText("");
-                    this.txtDRO_Ym.setText("");
-                    this.txtDRO_Zm.setText("");
-                    showDro(this.layoutDRO, 0);
+                    txtDRO_Xm.setText("");
+                    txtDRO_Ym.setText("");
+                    txtDRO_Zm.setText("");
+                    showDro(layoutDRO, 0);
                 case REQUEST_ENABLE_BT /*2*/:
-                    this.mUpdateTimer.cancel();
-                    this.mUpdateTimer.purge();
-                    this.mUpdateTimer = new Timer();
-                    this.mUpdateTimer.schedule(new TimerTask() {
+                    mUpdateTimer.cancel();
+                    mUpdateTimer.purge();
+                    mUpdateTimer = new Timer();
+                    mUpdateTimer.schedule(new TimerTask() {
                         public void run() {
-                            if (!MainActivity.this.noDRO && MainActivity.mRfcommClient.getState() == MainActivity.MESSAGE_WRITE) {
-                                MainActivity.mRfcommClient.write(MainActivity.this.qMark);
+                            if (!noDRO && mRfcommClient.getState() == MESSAGE_WRITE) {
+                                mRfcommClient.write(qMark);
                             }
                         }
-                    }, 500, this.mUpdatePeriod);
+                    }, 500, mUpdatePeriod);
                     sendMessage("$10=3\n");
-                    showDro(this.layoutDRO, 0);
+                    showDro(layoutDRO, 0);
                 case MESSAGE_WRITE /*3*/:
-                    this.mUpdateTimer.cancel();
-                    this.mUpdateTimer.purge();
-                    this.txtDRO_X.setText("");
-                    this.txtDRO_Y.setText("");
-                    this.txtDRO_Z.setText("");
-                    this.txtDRO_Xm.setText("");
-                    this.txtDRO_Ym.setText("");
-                    this.txtDRO_Zm.setText("");
-                    showDro(this.layoutDRO, MESSAGE_DEVICE_NAME);
+                    mUpdateTimer.cancel();
+                    mUpdateTimer.purge();
+                    txtDRO_X.setText("");
+                    txtDRO_Y.setText("");
+                    txtDRO_Z.setText("");
+                    txtDRO_Xm.setText("");
+                    txtDRO_Ym.setText("");
+                    txtDRO_Zm.setText("");
+                    showDro(layoutDRO, MESSAGE_DEVICE_NAME);
                 default:
             }
         } else if (key.equals("dro_refresh")) {
-            this.mUpdatePeriod = Long.parseLong(prefs.getString("dro_refresh", "500"));
-            this.mUpdateTimer.cancel();
-            this.mUpdateTimer.purge();
-            this.mUpdateTimer = new Timer();
-            this.mUpdateTimer.schedule(new TimerTask() {
+            mUpdatePeriod = Long.parseLong(prefs.getString("dro_refresh", "500"));
+            mUpdateTimer.cancel();
+            mUpdateTimer.purge();
+            mUpdateTimer = new Timer();
+            mUpdateTimer.schedule(new TimerTask() {
                 public void run() {
-                    if (!MainActivity.this.noDRO && MainActivity.mRfcommClient.getState() == MainActivity.MESSAGE_WRITE) {
-                        MainActivity.mRfcommClient.write(MainActivity.this.qMark);
+                    if (!noDRO && mRfcommClient.getState() == MESSAGE_WRITE) {
+                        mRfcommClient.write(qMark);
                     }
                 }
-            }, 500, this.mUpdatePeriod);
+            }, 500, mUpdatePeriod);
         }
     }
 
@@ -1115,8 +1115,8 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
     }
 
     public void onDestroy() {
-        this.mUpdateTimer.cancel();
-        this.mUpdateTimer.purge();
+        mUpdateTimer.cancel();
+        mUpdateTimer.purge();
         if (mRfcommClient != null) {
             mRfcommClient.stop();
         }
@@ -1124,14 +1124,14 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
     }
 
     public void onBackPressed() {
-        new Builder(this).setTitle(R.string.app_long_name)
+        new Builder(getApplicationContext()).setTitle(R.string.app_long_name)
                 .setMessage("Close this controller ??")
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-                if (MainActivity.mRfcommClient != null) {
-                    MainActivity.mRfcommClient.stop();
+                if (mRfcommClient != null) {
+                    mRfcommClient.stop();
                 }
-                MainActivity.this.finish();
+               finish();
             }
         }).setNegativeButton("No", null).show();
     }
@@ -1146,14 +1146,14 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
         switch (requestCode) {
             case REQUEST_CONNECT_DEVICE /*1*/:
                 if (resultCode == -1) {
-                    BluetoothDevice device = this.mBluetoothAdapter.getRemoteDevice(data.getExtras().getString(com.example.android.cncbt_kas2.DeviceListActivity.EXTRA_DEVICE_ADDRESS));
+                    BluetoothDevice device = mBluetoothAdapter.getRemoteDevice(data.getExtras().getString(com.example.android.cncbt_kas2.DeviceListActivity.EXTRA_DEVICE_ADDRESS));
                     mRfcommClient.connect(device);
-                    this.editor.putString("LastMacAddress", device.toString());
-                    this.editor.commit();
+                    editor.putString("LastMacAddress", device.toString());
+                    editor.commit();
                 }
             case REQUEST_ENABLE_BT /*2*/:
                 if (resultCode != -1) {
-                    Toast.makeText(this, R.string.bt_not_enabled_leaving, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.bt_not_enabled_leaving, Toast.LENGTH_SHORT).show();
                     finish();
                 }
             default:
