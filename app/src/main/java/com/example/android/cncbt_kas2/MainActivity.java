@@ -181,15 +181,15 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
                             ToneGenerator tg2 = new ToneGenerator(MainActivity.MESSAGE_TOAST, 80);
                             tg2.startTone(24);
                             tg2.release();
-                            C0013R.string.title_not_connected;
+                           // C0013R.string.title_not_connected;
                             MainActivity.this.mTxtStatus.setTextColor(Color.rgb(255, 0, 0));
-                            MainActivity.this.mTxtStatus.setText(C0013R.string.title_not_connected);
+                            MainActivity.this.mTxtStatus.setText(R.string.title_not_connected);
                         case MainActivity.REQUEST_ENABLE_BT /*2*/:
                             MainActivity.this.mTxtStatus.setTextColor(Color.rgb(255, 0, 0));
-                            MainActivity.this.mTxtStatus.setText(C0013R.string.title_connecting);
+                            MainActivity.this.mTxtStatus.setText(R.string.title_connecting);
                         case MainActivity.MESSAGE_WRITE /*3*/:
                             MainActivity.this.mTxtStatus.setTextColor(Color.rgb(0, 255, 0));
-                            MainActivity.this.mTxtStatus.setText(C0013R.string.title_connected_to);
+                            MainActivity.this.mTxtStatus.setText(R.string.title_connected_to);
                             MainActivity.this.mTxtStatus.append(" " + MainActivity.this.mConnectedDeviceName);
                             MainActivity.this.connectOnce = false;
                             MainActivity.this.sendMessage("$10=3\n");
@@ -210,7 +210,7 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
                         MainActivity.this.mButtonStreamFile.setTextColor(MainActivity.this.oldColor2);
                         MainActivity.this.enableButton(true);
                     } else if (MainActivity.this.readMessage.contains("error") || MainActivity.this.readMessage.toLowerCase(Locale.US).startsWith("alarm")) {
-                        MainActivity.this.mResponse.setTextColor(-65536);
+                        MainActivity.this.mResponse.setTextColor(0x65536);
                         MainActivity.this.mResponse.append("\n");
                         MainActivity.this.isStreaming = false;
                         MainActivity.this.responseAvailable = false;
@@ -243,9 +243,9 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
                     }
                 case MainActivity.MESSAGE_DEVICE_NAME /*4*/:
                     MainActivity.this.mConnectedDeviceName = msg.getData().getString(MainActivity.DEVICE_NAME);
-                    Toast.makeText(MainActivity.this.getApplicationContext(), "Connected to " + MainActivity.this.mConnectedDeviceName, 0).show();
+                    Toast.makeText(MainActivity.this.getApplicationContext(), "Connected to " + MainActivity.this.mConnectedDeviceName, Toast.LENGTH_SHORT).show();
                 case MainActivity.MESSAGE_TOAST /*5*/:
-                    Toast.makeText(MainActivity.this.getApplicationContext(), msg.getData().getString(MainActivity.TOAST), 0).show();
+                    Toast.makeText(MainActivity.this.getApplicationContext(), msg.getData().getString(MainActivity.TOAST), Toast.LENGTH_SHORT).show();
                 default:
             }
         }
@@ -322,22 +322,24 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
                     MainActivity.this.selectedButton = this.val$b;
                     this.val$ad.show();
                 } else if (MainActivity.this.btStrCmd[this.val$b].trim().length() <= 0) {
-                    Toast.makeText(MainActivity.this, "Button #" + (this.val$b + MainActivity.REQUEST_CONNECT_DEVICE) + " not configured", 0).show();
+                    Toast.makeText(MainActivity.this, "Button #" + (this.val$b + MainActivity.REQUEST_CONNECT_DEVICE) + " not configured", Toast.LENGTH_SHORT).show();
                 } else if (MainActivity.mRfcommClient.getState() == MainActivity.MESSAGE_WRITE) {
-                    while (MainActivity.mRfcommClient.mConnectedThread.mmInStream.available() > 0) {
+
+                    while (MainActivity.mRfcommClient.mConnectedThread.mmInStream != null) {
                         try {
                             MainActivity.mRfcommClient.mConnectedThread.mmInStream.read();
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
                     }
+
                     if (MainActivity.this.lv.isShown()) {
-                        MainActivity.this.lv.setVisibility(MainActivity.MESSAGE_DEVICE_NAME);
-                        MainActivity.this.layoutGRBL.setVisibility(0);
+                        MainActivity.this.lv.setVisibility(View.VISIBLE);
+                        MainActivity.this.layoutGRBL.setVisibility(View.VISIBLE);
                     }
                     MainActivity.this.sendMessage(new StringBuilder(String.valueOf(MainActivity.this.btStrCmd[this.val$b].trim())).append("\n").toString());
                 } else {
-                    Toast.makeText(MainActivity.this, "** Not connected **", 0).show();
+                    Toast.makeText(MainActivity.this, "** Not connected **", Toast.LENGTH_SHORT).show();
                 }
             }
             return false;
@@ -358,10 +360,10 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
             MainActivity.this.mButtonTxtSend.clearFocus();
             MainActivity.this.imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
             if (MainActivity.this.mTxtToSend.getText().toString().trim().length() <= 0) {
-                Toast.makeText(MainActivity.this, "Nothing to send", 0).show();
+                Toast.makeText(MainActivity.this, "Nothing to send", Toast.LENGTH_SHORT).show();
             } else if (MainActivity.mRfcommClient.getState() == MainActivity.MESSAGE_WRITE) {
 
-                while (MainActivity.mRfcommClient.mConnectedThread.mmInStream.available() > 0) {
+                while (MainActivity.mRfcommClient.mConnectedThread.mmInStream!= null) {
                     try {
                         MainActivity.mRfcommClient.mConnectedThread.mmInStream.read();
                     } catch (IOException e) {
@@ -377,7 +379,7 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
                 MainActivity.this.sendMessage(new StringBuilder(String.valueOf(MainActivity.this.mTxtToSend.getText().toString().trim())).append("\n").toString());
                 MainActivity.this.mTxtToSend.setText("");
             } else {
-                Toast.makeText(MainActivity.this, "** Not connected **", 0).show();
+                Toast.makeText(MainActivity.this, "** Not connected **", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -405,39 +407,39 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
                 MainActivity.this.mButtonStreamFile.performHapticFeedback(MainActivity.REQUEST_CONNECT_DEVICE);
             }
             if (MainActivity.this.mButtonStatus3.getText().toString().equals("please select a file ...")) {
-                Toast.makeText(MainActivity.this, "No file loaded", 0).show();
+                Toast.makeText(MainActivity.this, "No file loaded", Toast.LENGTH_SHORT).show();
             } else if (MainActivity.this.mButtonStreamFile.getText().toString().contains("Start")) {
                 if (MainActivity.mRfcommClient.getState() == MainActivity.MESSAGE_WRITE) {
                     MainActivity.this.pause = false;
                     MainActivity.this.grblReset = false;
                     MainActivity.this.isStreaming = true;
                     MainActivity.this.mButtonStreamFile.setText("Pause");
-                    MainActivity.this.mButtonStreamFile.setTextColor(-65536);
+                    MainActivity.this.mButtonStreamFile.setTextColor(0xe67300);
                     MainActivity.this.enableButton(false);
                     MainActivity.this.mResponse.setTextColor(MainActivity.this.oldColor);
                     MainActivity.this.mResponse.scrollTo(0, 0);
                     MainActivity.this.mResponse.setText("** sending " + MainActivity.this.mButtonStatus3.getText() + " **");
                     if (MainActivity.this.lv.isShown()) {
-                        MainActivity.this.lv.setVisibility(MainActivity.MESSAGE_DEVICE_NAME);
-                        MainActivity.this.layoutGRBL.setVisibility(0);
+                        MainActivity.this.lv.setVisibility(View.VISIBLE);
+                        MainActivity.this.layoutGRBL.setVisibility(View.VISIBLE);
                     }
                     new C00061().start();
                     return;
                 }
-                Toast.makeText(MainActivity.this, "** Not connected **", 0).show();
+                Toast.makeText(MainActivity.this, "** Not connected **", Toast.LENGTH_SHORT).show();
             } else if (MainActivity.this.mButtonStreamFile.getText().toString().contains("Pause")) {
                 MainActivity.this.pause = true;
                 MainActivity.this.sendMessage("!");
                 MainActivity.this.enableButton(true);
                 MainActivity.this.mButtonStreamFile.setText("Resume");
-                MainActivity.this.mButtonStreamFile.setTextColor(-16711936);
+                MainActivity.this.mButtonStreamFile.setTextColor(0xace600);
                 MainActivity.this.mResponse.append("\n < pause >");
             } else if (MainActivity.this.mButtonStreamFile.getText().toString().contains("Resume")) {
                 MainActivity.this.pause = false;
                 MainActivity.this.sendMessage("~");
                 MainActivity.this.enableButton(false);
                 MainActivity.this.mButtonStreamFile.setText("Pause");
-                MainActivity.this.mButtonStreamFile.setTextColor(-65536);
+                MainActivity.this.mButtonStreamFile.setTextColor(0xe67300);
                 MainActivity.this.mResponse.append("\n < resume >\n");
             }
         }
@@ -453,8 +455,8 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
             MainActivity.this.mButtonStatus3.setTextColor(MainActivity.this.oldColor);
             MainActivity.this.mButtonStatus3.setText(MainActivity.this.fileToRead);
             MainActivity.this.fileToRead = new StringBuilder(String.valueOf(Environment.getExternalStorageDirectory().getPath())).append("/download/").append(MainActivity.this.fileToRead).toString();
-            MainActivity.this.lv.setVisibility(MainActivity.MESSAGE_DEVICE_NAME);
-            MainActivity.this.layoutGRBL.setVisibility(0);
+            MainActivity.this.lv.setVisibility(View.VISIBLE);
+            MainActivity.this.layoutGRBL.setVisibility(View.VISIBLE);
         }
     }
 
@@ -470,8 +472,8 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
                 return;
             }
             MainActivity.this.mResponse.setText("");
-            MainActivity.this.layoutGRBL.setVisibility(MainActivity.MESSAGE_DEVICE_NAME);
-            MainActivity.this.lv.setVisibility(0);
+            MainActivity.this.layoutGRBL.setVisibility(View.VISIBLE);
+            MainActivity.this.lv.setVisibility(View.VISIBLE );
             if (MainActivity.this.buttonFeedback == MainActivity.REQUEST_ENABLE_BT) {
                 MainActivity.this.tg.startTone(24);
             } else if (MainActivity.this.buttonFeedback == MainActivity.MESSAGE_DEVICE_NAME) {
@@ -479,9 +481,9 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
             }
             ArrayList<String> FilesInFolder = MainActivity.this.GetFiles(new StringBuilder(String.valueOf(Environment.getExternalStorageDirectory().getPath())).append("/download").toString());
             if (FilesInFolder != null) {
-                MainActivity.this.lv.setAdapter(new ArrayAdapter(MainActivity.this, C0013R.layout.mylist, FilesInFolder));
+                MainActivity.this.lv.setAdapter(new ArrayAdapter(MainActivity.this, R.layout.mylist, FilesInFolder));
             } else {
-                Toast.makeText(MainActivity.this, "** No CNC files **", 0).show();
+                Toast.makeText(MainActivity.this, "** No CNC files **", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -515,18 +517,18 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
 
     static {
         mRfcommClient = null;
-        idArray = new int[]{C0013R.id.buttonCmd1, C0013R.id.buttonCmd2, C0013R.id.buttonCmd3, C0013R.id.buttonCmd4, C0013R.id.buttonCmd5, C0013R.id.buttonCmd6, C0013R.id.buttonCmd7, C0013R.id.buttonCmd8, C0013R.id.buttonCmd9, C0013R.id.buttonCmd10, C0013R.id.buttonCmd11, C0013R.id.buttonCmd12, C0013R.id.buttonCmdA, C0013R.id.buttonCmdB, C0013R.id.buttonCmdC};
+        idArray = new int[]{R.id.buttonCmd1, R.id.buttonCmd2, R.id.buttonCmd3, R.id.buttonCmd4, R.id.buttonCmd5, R.id.buttonCmd6, R.id.buttonCmd7, R.id.buttonCmd8, R.id.buttonCmd9, R.id.buttonCmd10, R.id.buttonCmd11, R.id.buttonCmd12, R.id.buttonCmdA, R.id.buttonCmdB, R.id.buttonCmdC};
     }
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().addFlags(128);
         requestWindowFeature(REQUEST_CONNECT_DEVICE);
-        setContentView(C0013R.layout.main);
+        setContentView(R.layout.activity_main);
         getWindow().setSoftInputMode(REQUEST_ENABLE_BT);
         this.view = getCurrentFocus();
         getWindow().setFlags(1024, 1024);
-        this.imm = (InputMethodManager) getSystemService("input_method");
+        //this.imm = (InputMethodManager) getSystemService(InputMethodManager);
         this.prefs = PreferenceManager.getDefaultSharedPreferences(this);
         this.prefs.registerOnSharedPreferenceChangeListener(this);
         this.editor = this.prefs.edit();
@@ -539,12 +541,12 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
         if (!this.mBluetoothAdapter.isEnabled()) {
             startActivityForResult(new Intent("android.bluetooth.adapter.action.REQUEST_ENABLE"), REQUEST_ENABLE_BT);
         }
-        mRfcommClient = new om.example.android.cncbt_kas2.BluetoothRfcommClient(this, this.mHandler);
-        this.mButtonStatus3 = (TextView) findViewById(C0013R.id.text_Data3);
+        mRfcommClient = new com.example.android.cncbt_kas2.BluetoothRfcommClient(this, this.mHandler);
+        this.mButtonStatus3 = (TextView) findViewById(R.id.text_Data3);
         this.oldColor = this.mButtonStatus3.getTextColors();
-        this.mButtonStatus3.setTextColor(-65536);
+        this.mButtonStatus3.setTextColor(0xFF0000);
         this.mButtonStatus3.setText("please select a file ...");
-        this.mResponse = (TextView) findViewById(C0013R.id.text_feedBack);
+        this.mResponse = (TextView) findViewById(R.id.text_feedBack);
         this.mResponse.setMovementMethod(ScrollingMovementMethod.getInstance());
         this.mResponse.setClickable(false);
         this.mResponse.setLongClickable(false);
@@ -568,9 +570,9 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
                 this.commandCodeDisplay = true;
                 break;
         }
-        this.mTxtStatus = (TextView) findViewById(C0013R.id.txt_status);
+        this.mTxtStatus = (TextView) findViewById(R.id.txt_status);
         this.tg = new ToneGenerator(MESSAGE_TOAST, 50);
-        this.mOptionButton = (ImageButton) findViewById(C0013R.id.Button_Op);
+        this.mOptionButton = (ImageButton) findViewById(R.id.Button_Op);
         this.mOptionButton.setOnClickListener(new C00012());
         this.builder = new Builder(this).setCancelable(false);
         this.builder.setTitle("Button configuration");
@@ -593,21 +595,21 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
             this.btStrCmd[b] = this.prefs.getString("ButtonStrCmd" + b, "");
             this.bt[b].setOnTouchListener(new C00045(b, ad));
         }
-        this.mTxtToSend = (EditText) findViewById(C0013R.id.editSend);
-        this.layoutGRBL = (LinearLayout) findViewById(C0013R.id.Layout_GRBL);
-        this.layoutButtons = (LinearLayout) findViewById(C0013R.id.LinearLayoutCmd);
-        this.mButtonTxtSend = (Button) findViewById(C0013R.id.ButtonSend);
+        this.mTxtToSend = (EditText) findViewById(R.id.editSend);
+        this.layoutGRBL = (LinearLayout) findViewById(R.id.Layout_GRBL);
+        this.layoutButtons = (LinearLayout) findViewById(R.id.LinearLayoutCmd);
+        this.mButtonTxtSend = (Button) findViewById(R.id.ButtonSend);
         this.mButtonTxtSend.setOnClickListener(new C00056());
-        this.mButtonStreamFile = (Button) findViewById(C0013R.id.buttonstart);
+        this.mButtonStreamFile = (Button) findViewById(R.id.buttonstart);
         this.oldColor2 = this.mButtonStreamFile.getTextColors();
         this.mButtonStreamFile.setOnClickListener(new C00077());
-        this.lv = (ListView) findViewById(C0013R.id.filelist1);
+        this.lv = (ListView) findViewById(R.id.filelist1);
         this.lv.setVisibility(MESSAGE_DEVICE_NAME);
         this.lv.setOnItemClickListener(new C00088());
-        this.mButtonLoad = (Button) findViewById(C0013R.id.Buttonload);
+        this.mButtonLoad = (Button) findViewById(R.id.Buttonload);
         this.mButtonLoad.setOnClickListener(new C00099());
-        this.mButtonReset = (Button) findViewById(C0013R.id.Buttonreset);
-        this.mButtonReset.setTextColor(-65536);
+        this.mButtonReset = (Button) findViewById(R.id.Buttonreset);
+        this.mButtonReset.setTextColor(0xFF0000);
         this.mButtonReset.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 if (MainActivity.this.buttonFeedback == MainActivity.REQUEST_ENABLE_BT) {
@@ -635,14 +637,14 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
             }
             this.connectOnce = false;
         }
-        this.layoutDRO = (LinearLayout) findViewById(C0013R.id.layoutdro);
-        this.txtSTAT = (TextView) findViewById(C0013R.id.textstatus);
-        this.txtDRO_X = (TextView) findViewById(C0013R.id.textviewX);
-        this.txtDRO_Y = (TextView) findViewById(C0013R.id.textviewY);
-        this.txtDRO_Z = (TextView) findViewById(C0013R.id.textviewZ);
-        this.txtDRO_Xm = (TextView) findViewById(C0013R.id.textviewXm);
-        this.txtDRO_Ym = (TextView) findViewById(C0013R.id.textviewYm);
-        this.txtDRO_Zm = (TextView) findViewById(C0013R.id.textviewZm);
+        this.layoutDRO = (LinearLayout) findViewById(R.id.layoutdro);
+        this.txtSTAT = (TextView) findViewById(R.id.textstatus);
+        this.txtDRO_X = (TextView) findViewById(R.id.textviewX);
+        this.txtDRO_Y = (TextView) findViewById(R.id.textviewY);
+        this.txtDRO_Z = (TextView) findViewById(R.id.textviewZ);
+        this.txtDRO_Xm = (TextView) findViewById(R.id.textviewXm);
+        this.txtDRO_Ym = (TextView) findViewById(R.id.textviewYm);
+        this.txtDRO_Zm = (TextView) findViewById(R.id.textviewZm);
         this.mUpdateTimer = new Timer();
         this.droDisplay = Integer.parseInt(this.prefs.getString("dro_display", "3"));
         switch (this.droDisplay) {
@@ -979,9 +981,9 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
 
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item == this.mItemConnect) {
-            startActivityForResult(new Intent(this, om.example.android.cncbt_kas2.DeviceListActivity.class), REQUEST_CONNECT_DEVICE);
+            startActivityForResult(new Intent(this, com.example.android.cncbt_kas2.DeviceListActivity.class), REQUEST_CONNECT_DEVICE);
         } else if (item == this.mItemOptions) {
-            startActivity(new Intent(this, om.example.android.cncbt_kas2.OptionsActivity.class));
+            startActivity(new Intent(this, com.example.android.cncbt_kas2.OptionsActivity.class));
         } else if (item == this.mItemResetOpt) {
             Builder dlg = new Builder(this);
             dlg.setMessage("Revert to default factory config ??\n (will reset BT communication)");
@@ -1006,7 +1008,7 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
             dlg.show();
         } else if (item == this.mItemAbout) {
             try {
-                ((TextView) new Builder(this).setTitle(getString(C0013R.string.app_long_name) + "  V" + getPackageManager().getPackageInfo(getPackageName(), 0).versionName + "\n           @kas 2015").setMessage("from an original idea by billcat").show().findViewById(16908299)).setMovementMethod(LinkMovementMethod.getInstance());
+                //((TextView) new Builder(this).setTitle(getString(R.string.app_long_name) + "  V" + getPackageManager().getPackageInfo(getPackageName(), 0).versionName + "\n           @kas 2015").setMessage("from an original idea by billcat").show().findViewById(16908299)).setMovementMethod(LinkMovementMethod.getInstance());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -1144,14 +1146,14 @@ public class MainActivity extends Activity implements OnSharedPreferenceChangeLi
         switch (requestCode) {
             case REQUEST_CONNECT_DEVICE /*1*/:
                 if (resultCode == -1) {
-                    BluetoothDevice device = this.mBluetoothAdapter.getRemoteDevice(data.getExtras().getString(om.example.android.cncbt_kas2.DeviceListActivity.EXTRA_DEVICE_ADDRESS));
+                    BluetoothDevice device = this.mBluetoothAdapter.getRemoteDevice(data.getExtras().getString(com.example.android.cncbt_kas2.DeviceListActivity.EXTRA_DEVICE_ADDRESS));
                     mRfcommClient.connect(device);
                     this.editor.putString("LastMacAddress", device.toString());
                     this.editor.commit();
                 }
             case REQUEST_ENABLE_BT /*2*/:
                 if (resultCode != -1) {
-                    Toast.makeText(this, C0013R.string.bt_not_enabled_leaving, 0).show();
+                    Toast.makeText(this, R.string.bt_not_enabled_leaving, Toast.LENGTH_SHORT).show();
                     finish();
                 }
             default:
